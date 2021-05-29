@@ -1,0 +1,157 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ product.title }} {% endblock %}
+{% block keywords %} {{ product.keywords }} {% endblock %}
+{% block description %} {{ product.description }} {% endblock %}
+{% block head %}
+    {% load static %}
+    <link rel='shortcut icon' type='image/x-icon' href='{{ setting.icon.url }}'/>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link href="{% static 'css/benim_eklediklerim.css' %}" rel="stylesheet">
+    <script src="{% static 'js/benim_eklediklerim.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {%  include "sidebar.html" %}
+                <div class="col-sm-9 padding-right">
+                    <div class="product-details"><!--product-details-->
+                        <div class="col-sm-5">
+                            <div class="view-product" id="maindisplay">
+                                <img src="{{ product.image.url}}" id="main-image" alt="" />
+                            </div>
+                            <div id="similar-product" class="carousel slide" data-ride="carousel">
+
+                                <!-- Wrapper for slides -->
+                                <div class="carousel-inner">
+                                    <div class="item active" align="center">
+                                        <img src="{{ product.image.url}}" style="height: 100px" onclick="src_change(this.src)">
+                                    </div>
+                                    {% for rs in images %}
+                                        <div class="item" align="center">
+                                            <img src="{{ rs.image.url}}" style="height: 100px" alt="" onclick="src_change(this.src)">
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <!-- Controls -->
+                                <a class="left item-control" href="#similar-product" data-slide="prev">
+                                    <i class="fa fa-angle-left"></i>
+                                </a>
+                                <a class="right item-control" href="#similar-product" data-slide="next">
+                                    <i class="fa fa-angle-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="product-information"><!--/product-information-->
+                                <img src="images/product-details/new.jpg" class="newarrival" alt="" />
+                                <h2>{{ product.title}}</h2>
+                                <p>Ürün No: {{ product.id}}</p>
+                                <img src="images/product-details/rating.png" alt="" />
+                                <span>
+									<span>TRY {{ product.price}}</span>
+
+                                    <div id="buy-something">
+                                        <form action="/order/addtocart/{{ product.id }}" method="post">
+                                            {% csrf_token %}
+                                            <label>Miktar:</label>
+									        <input name="quantity" type="number" value="1" min="0" max="{{ product.amount }}"/>
+                                            <button type="submit" class="btn btn-default cart">
+										        <i class="fa fa-shopping-cart"></i>	Sepete Ekle
+									        </button>
+                                        </form>
+                                    </div>
+
+								</span>
+                                <p><b>Miktar:</b> {{ product.amount}}</p>
+                                <p><b>Durum:</b> Yeni</p>
+                                <p><b>Yayınevi:</b> {{ product.publisher}}</p>
+                                <p><b>Cilt Türü:</b>
+                                    {% if product.coverType == "True" %}
+                                        Ciltli
+                                    {% else %}
+                                        Karton Kapak
+                                    {% endif %}</p>
+                                <p><b>Sayfa Sayısı:</b> {{ product.pages}}</p>
+                            </div><!--/product-information-->
+                        </div>
+                    </div><!--/product-details-->
+                    <div class="category-tab shop-details-tab"><!--category-tab-->
+                        <div class="col-sm-12">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a href="#details" data-toggle="tab">Ayrıntılar</a></li>
+                                <li><a href="#reviews" data-toggle="tab">Değerlendirmeler</a></li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade active in" id="details" >
+                                <div class="col-sm-12">
+                                    <p>{{ product.detail|safe }}</p>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="reviews" >
+                                <div class="col-sm-6">
+                                    <h2 class="title text-center">YORUMLAR</h2>
+                                    {% for rs in comments %}
+                                        <div id="single_comment" style="font-size: small">
+                                            <p><b>Gönderen:</b> {{ rs.user.first_name }} {{ rs.user.last_name }}</p>
+                                            <p><b>Gönderme Zamanı:</b> {{ rs.created_at }}</p>
+                                            <p><b>Not:</b> {{ rs.rate }}/5</p>
+                                            <p><b>{{ rs.subject }}</b></p>
+                                            <p>{{ rs.comment }}</p>
+                                            <p>-----------------------------</p>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="col-sm-6">
+                                    <p><b>Lütfen Yorumunuzu Yazın</b></p>
+                                    <form action="/product/addcomment/{{ product.id }}" method="post">
+                                        {% csrf_token %}
+                                        <span>
+                                            <input class="input" type="text" name="subject" id="id_subject" placeholder="Konu"/>
+										</span>
+                                        <textarea class="input" type="text" name="comment" id="id_comment" placeholder="Değerlendirmeniz"></textarea>
+                                        <span>
+                                            <b>Notunuz: </b></span>
+
+                                        <div class="rate">
+                                            <input type="radio" id="star5" name="rate" value="5" />
+                                            <label for="star5" title="text">5 yıldız</label>
+                                            <input type="radio" id="star4" name="rate" value="4" />
+                                            <label for="star4" title="text">4 yıldız</label>
+                                            <input type="radio" id="star3" name="rate" value="3" />
+                                            <label for="star3" title="text">3 yıldız</label>
+                                            <input type="radio" id="star2" name="rate" value="2" />
+                                            <label for="star2" title="text">2 yıldız</label>
+                                            <input type="radio" id="star1" name="rate" value="1" />
+                                            <label for="star1" title="text">1 yıldız</label>
+                                        </div>
+
+                                        {% if user.id is not None %}
+                                            <button type="submit" class="btn btn-default pull-right" value="Submit"> Gönder </button>
+                                        {% else %}
+                                            Yorum eklemek için giriş yapmanız gereklidir!
+                                        {% endif %}
+
+                                    </form>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div><!--/category-tab-->
+
+                </div>
+            </div>
+    </section>
+{% endblock %}

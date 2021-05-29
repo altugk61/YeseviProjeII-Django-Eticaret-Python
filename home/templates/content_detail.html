@@ -1,0 +1,32 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ setting.title }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %} <link rel='shortcut icon' type='image/x-icon' href='{{ setting.icon.url }}'/> {% endblock %}
+
+{% block content %}
+    {% load static %}
+    <section>
+        <div class="container">
+            <div class="row">
+
+                    {%  include "sidebar.html" %}
+
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items"><!--features_items-->
+                        <h2 class="title text-center">İÇERİK AYRINTISI</h2>
+                        <img src = "{{ content.image.url }}" height="300"><br>
+                        <h3 class="title text-center">{{ content.title}}</h3>
+                        {{ content.detail|safe }}
+                        <hr>
+                        {% for rs in images %}
+                            <img src="{{ rs.image.url }}" height="200" alt="">
+                        {% endfor %}
+                    </div><!--features_items-->
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

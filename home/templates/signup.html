@@ -1,0 +1,50 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ setting.title }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.description }} {% endblock %}
+{% block head %}
+    <link rel='shortcut icon' type='image/x-icon' href='{{ setting.icon.url }}' xmlns="http://www.w3.org/1999/html"/> {% endblock %}
+
+{% block content %}
+    <section id="form" autocomplete="off"><!--form-->
+        <div class="container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} col-sm-12" role="alert" align="center">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-1 col-sm-offset-1">
+                </div>
+                <div class="col-sm-6">
+                    <div class="signup-form"><!--sign up form-->
+                        <h2>Yeni Kullanıcı Kaydı!</h2>
+                        <form method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <p>
+                                    {{ field.label_tag }}<br>
+                                    {{ field }}
+                                    {% if field.help_text %}
+                                        <small style=":"color: grey">{{ field.help_text }}</small>
+                                    {% endif %}
+                                    {% for error in field.errors %}
+                                        <p style="color: red">{{ error }}</p>
+                                    {%  endfor %}
+                                </p>
+                            {% endfor %}
+                            <button type="submit" class="btn btn-default add-to-cart">Sign Up</button>
+                        </form>
+                    </div>
+                    <div class="col-sm-2 col-sm-offset-1">
+                    </div><!--/sign up form-->
+                </div>
+            </div>
+        </div>
+    </section><!--/form-->
+{% endblock %}
+
+

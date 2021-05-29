@@ -1,0 +1,55 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ categorydata.title }} Ürünleri {% endblock %}
+{% block keywords %} {{ categorydata.keywords }} {% endblock %}
+{% block description %} {{ categorydata.description }} {% endblock %}
+{% block head %} <link rel='shortcut icon' type='image/x-icon' href='{{ categorydata.icon.url }}'/> {% endblock %}
+
+{% block slider %}
+    {%  include "slider.html" %}
+{% endblock %}
+
+{% block content %}
+    <section>
+		<div class="container">
+			<div class="row">
+                    {%  include "sidebar.html" %}
+                    <div class="col-sm-9 padding-left">
+					<div class="features_items"><!--features_items-->
+						<h2 class="title text-center">{{ categorydata.title }} KATEGORİSİ</h2>
+                        {% for rs in products %}
+						<div class="col-sm-4">
+							<div class="product-image-wrapper">
+								<div class="single-products">
+									<div class="productinfo text-center">
+										<img src="{{ rs.image.url }}" height="300" />
+										<h2>TRY{{ rs.price }}</h2>
+										<p>{{ rs.title }}</p>
+										<a href="/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+									</div>
+									<div class="product-overlay">
+										<div class="overlay-content">
+											<h2>TRY{{ rs.price }}</h2>
+                                            <p>{{ rs.title }}</p>
+											<p><a href="/product/{{ rs.id }}/{{ rs.slug }}">Ürün Ayrıntıları<a></p>
+											<a href="/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                        {% endfor %}
+                    </div>
+                    <div align="center">
+                        <ul class="pagination">
+                            <li class="active"><a href="">1</a></li>
+                            <li><a href="">2</a></li>
+                            <li><a href="">3</a></li>
+                            <li><a href="">&raquo;</a></li>
+                        </ul>
+                    </div>
+                </div><!--features_items-->
+			</div>
+		</div>
+	</section>
+{% endblock %}

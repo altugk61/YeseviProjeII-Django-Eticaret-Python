@@ -1,0 +1,149 @@
+{% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<header id="header"><!--header-->
+    <div class="header_top"><!--header_top-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="contactinfo">
+                        <ul class="nav nav-pills">
+                            <li><a href="#"><i class="fa fa-phone"></i> +2 95 01 88 821</a></li>
+                            <li><a href="#"><i class="fa fa-envelope"></i> info@domain.com</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="social-icons pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header_top-->
+
+    <script>
+        $(function(){
+            $("#query").autocomplete({
+                source: "/search_auto",
+                select: function (event, ui) {
+                    AutoCompleteSelectHandler(event, ui)
+                },
+                minLength: 2,
+            });
+        });
+
+        function AutoCompleteSelectHandler(event, ui){
+            var selectedObj = ui.item;
+        }
+
+    </script>
+
+    <div class="header-middle"><!--header-middle-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="logo pull-left">
+                        <a href="index.html"><img src="{% static 'images/home/logo.png' %}" alt="" /></a>
+                    </div>
+                    <div class="btn-group pull-right">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                USA
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Canada</a></li>
+                                <li><a href="#">UK</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default dropdown-toggle usa" data-toggle="dropdown">
+                                DOLLAR
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Canadian Dollar</a></li>
+                                <li><a href="#">Pound</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <div class="shop-menu pull-right">
+                        <ul class="nav navbar-nav">
+                            <li><a href="/user/"><i class="fa fa-user"></i> Account</a></li>
+                            <li><a href="/order/shopcart/"><i class="fa fa-shopping-cart"></i> Cart ({{ request.session.cart_items }})</a></li>
+                            {% if user.id is not None %}
+                                <li><a href="/logout/"><i class="fa fa-unlock"></i> Logout </a></li>
+                                <li><a href="/user/"> <img src="{{ request.session.userimage }}" style="height: 25px; border-radius: 30%">
+                                    {{ user.first_name }}</a></li>
+                            {% else %}
+                                <li><a href="/login/"><i class="fa fa-lock"></i> Login</a></li>
+                                <li><a href="/join/"><i class="fa fa-angle-double-down"></i> Join</a></li>
+                            {% endif %}
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-middle-->
+
+    <div class="header-bottom"><!--header-bottom-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                    </div>
+                    <div class="mainmenu pull-left">
+                        <ul class="nav navbar-nav collapse navbar-collapse">
+                            {% if page == 'home'%}
+                                <li><a href="/" class="active">Ana Sayfa</a></li>
+                            {% else %}
+                                <li><a href="/">Ana Sayfa</a></li>
+                            {% endif %}
+                            {% if page == 'hakkimizda'%}
+                                <li><a href="/hakkimizda" class="active">Hakkımızda</a></li>
+                            {% else %}
+                                <li><a href="/hakkimizda">Hakkımızda</a></li>
+                            {% endif %}
+                            {% if page == 'referanslar'%}
+                                <li><a href="/referanslar" class="active">Referanslar</a></li>
+                            {% else %}
+                                <li><a href="/referanslar">Referanslar</a></li>
+                            {% endif %}
+                            {% if page == 'iletisim'%}
+                                <li><a href="/iletisim" class="active">İletişim</a></li>
+                            {% else %}
+                                <li><a href="/iletisim">İletişim</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="search_box pull-right">
+                        <form action="/search/" method="post">
+                            {% csrf_token %}
+                            <input id="query" name="query" type="text" placeholder="Ara"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!--/header-bottom-->
+</header><!--/header-->

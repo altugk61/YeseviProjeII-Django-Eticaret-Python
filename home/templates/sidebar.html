@@ -1,0 +1,68 @@
+
+{% load static %}
+<div class="col-sm-3">
+    <div class="left-sidebar">
+
+        <h2>MENÜLER</h2>
+        <div class="panel-group category-products" id="accordian"><!--category-products-->
+            <div class="panel panel-default">
+                {% load mptt_tags %}
+                <ul>
+                    {% recursetree menu %}
+                        <li>
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a {% if not node.is_leaf_node %} data-toggle="collapse" data-parent="#accordian" {% endif %} href="/menu/{{ node.id }}">
+                                        {% if not node.is_leaf_node %}
+                                            <span class="badge pull-right"><i class="fa fa-forward"></i></span>
+                                        {% endif %}
+                                        {{ node.title }}
+                                    </a>
+                                </h4>
+                            </div>
+                            {% if not node.is_leaf_node %}
+                                <ul class="children">
+                                    {{ children }}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endrecursetree %}
+                </ul>
+            </div>
+            <br>
+            <h2>KATEGORİLER</h2>
+            <div class="panel-group category-products" id="accordian"><!--category-products-->
+                <div class="panel panel-default">
+                    {% load mptt_tags %}
+                    <ul>
+                        {% recursetree category %}
+                            <li>
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a {% if not node.is_leaf_node %} data-toggle="collapse" data-parent="#accordian" {% endif %} href="/category/{{ node.id }}/{{ node.slug }}">
+                                            {% if not node.is_leaf_node %}
+                                                <span class="badge pull-right"><i class="fa fa-forward"></i></span>
+                                            {% endif %}
+                                            {{ node.title }}
+                                        </a>
+                                    </h4>
+                                </div>
+                                {% if not node.is_leaf_node %}
+                                    <ul class="children">
+                                        {{ children }}
+                                    </ul>
+                                {% endif %}
+                            </li>
+                        {% endrecursetree %}
+                    </ul>
+                </div>
+
+            </div><!--/category-products-->
+
+
+
+        </div>
+
+    </div>
+</div>
+

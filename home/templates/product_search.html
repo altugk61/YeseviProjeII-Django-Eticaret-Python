@@ -1,0 +1,33 @@
+{% extends "homebase.html" %}
+
+{% block title %} Arama Sonuçları {% endblock %}
+{% block head %} <link rel='shortcut icon' type='image/x-icon' href='{{ categorydata.icon.url }}'/> {% endblock %}
+
+{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <table cellpadding="3" width="1200">
+                    <tr align="center">
+                        <th >Ürün Resmi</th>
+                        <th>Ürün Adı</th>
+                        <th>Ürün Kategorisi</th>
+                        <th>Ürün Yazarı</th>
+                        <th>Ürün Fiyatı</th>
+                        <th>Ürün Miktarı</th>
+                    </tr>
+                    {% for rs in products %}
+                        <tr>
+                            <td align="center"><a href="/product/{{ rs.id }}/{{ rs.slug }}"><img src="{{ rs.image.url }}" height="150"> </a> </td>
+                            <td><b><a href="/product/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></b></td>
+                            <td><a href="/category/{{ rs.category.id }}/{{ rs.category.slug }}">{{ rs.category }}</a></td>
+                            <td>{{ rs.author }}</td>
+                            <td align="center">TRY {{ rs.price }}</td>
+                            <td align="center">{{ rs.amount }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </section>
+{% endblock %}

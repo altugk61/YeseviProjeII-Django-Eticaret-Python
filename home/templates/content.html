@@ -1,0 +1,153 @@
+{% block content %}
+    {% load static %}
+    <section>
+        <div class="container">
+            <div class="row">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {%  include "sidebar.html" %}
+                <div class="col-sm-9 padding-right">
+                    <div class="features_items"><!--features_items-->
+                        <h2 class="title text-center">ÖNE ÇIKAN ÜRÜNLER</h2>
+                        {% for rs in dayproducts %}
+                            <div class="col-sm-4">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="{{ rs.image.url }}" height="300" />
+                                            <h2>TRY {{ rs.price }}</h2>
+                                            <p>{{ rs.title }}</p>
+                                            {% if rs.amount > 0 %}
+                                                <a href="/order/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                                            {% else %}
+                                                <a href="" class="btn btn-default add-to-cart"><i class="fa fa-stop"></i>Stokta Kalmadı</a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>TRY {{ rs.price }}</h2>
+                                                <p>{{ rs.title }}</p>
+                                                <p><a href="/product/{{ rs.id }}/{{ rs.slug }}">Ürün Ayrıntıları<a></p>
+                                                {% if rs.amount > 0 %}
+                                                    <a href="/order/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                                                {% else %}
+                                                    <a href="" class="btn btn-default add-to-cart"><i class="fa fa-stop"></i>Stokta Kalmadı</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div><!--features_items-->
+
+                    <div class="recommended_items"><!--yeni-->
+                        <h2 class="title text-center">YENİ EKLENEN ÜRÜNLER</h2>
+                        <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+                            <div class="carousel-inner">
+                                <div class="item active">
+                                    {% for rs in lastproducts_active %}
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="{{ rs.image.url }}" height="300" />
+                                                        <h2>TRY {{ rs.price }}</h2>
+                                                        <p>{{ rs.title }}</p>
+                                                        {% if rs.amount > 0 %}
+                                                            <a href="/order/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                                                        {% else %}
+                                                            <a href="" class="btn btn-default add-to-cart"><i class="fa fa-stop"></i>Stokta Kalmadı</a>
+                                                        {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <div class="item">
+                                    {% for rs in lastproducts_passive|slice:"3:6" %}
+                                        <div class="col-sm-4">
+                                            <div class="product-image-wrapper">
+                                                <div class="single-products">
+                                                    <div class="productinfo text-center">
+                                                        <img src="{{ rs.image.url }}" height="300" />
+                                                        <h2>TRY {{ rs.price }}</h2>
+                                                        <p>{{ rs.title }}</p>
+                                                        {% if rs.amount > 0 %}
+                                                            <a href="/order/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                                                        {% else %}
+                                                            <a href="" class="btn btn-default add-to-cart"><i class="fa fa-stop"></i>Stokta Kalmadı</a>
+                                                        {% endif %}
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                            <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div><!--/yeni-->
+
+                    <div class="features_items"><!--recommended_items-->
+                        <h2 class="title text-center">TAVSİYE EDİLEN ÜRÜNLER</h2>
+                        {% for rs in randomproducts %}
+                            <div class="col-sm-4">
+                                <div class="product-image-wrapper">
+                                    <div class="single-products">
+                                        <div class="productinfo text-center">
+                                            <img src="{{ rs.image.url }}" height="300" />
+                                            <h2>TRY {{ rs.price }}</h2>
+                                            <p>{{ rs.title }}</p>
+                                            <a href="/order/addtocart/{{ rs.id }}/{{ rs.slug }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                                        </div>
+                                        <div class="product-overlay">
+                                            <div class="overlay-content">
+                                                <h2>TRY {{ rs.price }}</h2>
+                                                <p>{{ rs.title }}</p>
+                                                <p><a href="/product/{{ rs.id }}/{{ rs.slug }}">Ürün Ayrıntıları<a></p>
+                                                {% if rs.amount > 0 %}
+                                                    <a href="/order/addtocart/{{ rs.id }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Sepete Ekle</a>
+                                                {% else %}
+                                                    <a href="" class="btn btn-default add-to-cart"><i class="fa fa-stop"></i>Stokta Kalmadı</a>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="choose">
+                                        <ul class="nav nav-pills nav-justified">
+                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to wishlist</a></li>
+                                            <li><a href="#"><i class="fa fa-plus-square"></i>Add to compare</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+
+                    </div><!--recommended_items-->
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
