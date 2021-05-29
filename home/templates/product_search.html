@@ -4,12 +4,20 @@
 {% block head %} <link rel='shortcut icon' type='image/x-icon' href='{{ categorydata.icon.url }}'/> {% endblock %}
 
 {% block content %}
+    <div id="breadcrumb">
+        <div class="container">
+            <ul class="breadcrumb">
+                <li><a href="/">Ana Sayfa</a></li>
+                <li class="active">Sipariş Ayrıntıları</li>
+            </ul>
+        </div>
+    </div>
     <section>
         <div class="container">
             <div class="row">
                 <table cellpadding="3" width="1200">
                     <tr align="center">
-                        <th >Ürün Resmi</th>
+                        <th>Ürün Resmi</th>
                         <th>Ürün Adı</th>
                         <th>Ürün Kategorisi</th>
                         <th>Ürün Yazarı</th>
