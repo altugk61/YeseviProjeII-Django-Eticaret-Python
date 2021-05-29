@@ -1,2 +1,2 @@
 # project3
-Yesevi-ProjectII-Django
+Yesevi-ProjectII-Django-Python-Eticaret
